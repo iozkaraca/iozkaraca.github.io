@@ -1,0 +1,46 @@
+body {background-color: white; color: black; font-family:Sans-Serif; font-size: 18px;text-align:justify;
+  
+  margin-top: 10px;
+  margin-bottom: 100px;
+
+  
+}
+h1   {font-weight: bold; font-weight: 1000; font-family:Sans-Serif; font-size: 25px;
+  margin-bottom: 80px;
+
+}
+h2   {color: blue; font-family:Sans-Serif; font-size: 40px;
+
+}
+h3   {color: blue; font-family:Sans-Serif; font-size: 30px;
+    margin-right: 10px;
+  margin-left: 10px;
+}
+p   {margin-bottom: 25px;
+
+}
+ttt   {
+color: rgb(111,138,235);
+}
+
+ttt2   {
+color: rgb(111,138,235);
+margin-top: 0px;
+}
+
+tttred   {
+color: orange;
+}
+
+sfont {font-size: 15px;padding: 25px;}
+
+spad {font-size: 18px;padding: 10px;margin-bottom: 25px;}
+
+vpad {margin-bottom: 20px;}
+
+
+bigbold {font-size: 25px;font-weight: bold;}
+
+blockquote {font-size: 10px;font-style: italic;}
+
+
