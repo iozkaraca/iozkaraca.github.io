@@ -28,8 +28,24 @@ color: rgb(111,138,235);
 margin-top: 0px;
 }
 
+tttwhite   {
+color: white;
+}
+
 tttred   {
 color: orange;
+}
+
+tttred2   {
+color: rgb(181,166,66);
+}
+
+tttgray   {
+color: gray;
+}
+
+tttlightcoral   {
+color: lightcoral;
 }
 
 sfont {font-size: 15px;padding: 25px;}
