@@ -1,13 +1,41 @@
+/* styles.css */
+.main-container,
+.container,
+.container-fluid {
+  max-width: 90% !important;
+  width: 100% !important;
+  padding: 10 !important;
+}
 body {background-color: white; color: black; font-family:Sans-Serif; font-size: 18px;text-align:justify;
   
   margin-top: 10px;
   margin-bottom: 100px;
-
+  margin-right: 20px;
+  margin-left: 20px;
   
+
 }
+
+
+table, th, td {
+  border: none !important;
+  border-collapse: collapse !important;
+}
+
+/* If you want to remove underlines from all links in tables: */
+table a,
+table a:visited,
+table a:hover,
+table a:active {
+  text-decoration: none !important;
+}
+
 h1   {font-weight: bold; font-weight: 1000; font-family:Sans-Serif; font-size: 25px;
   margin-bottom: 80px;
 
+}
+h1.title {
+    display: none;
 }
 h2   {color: blue; font-family:Sans-Serif; font-size: 40px;
 
