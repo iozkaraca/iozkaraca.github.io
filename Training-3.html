@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Training-3</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="CV.html">CV</a>
+</li>
+<li>
+  <a href="Research.html">Research</a>
+</li>
+<li>
+  <a href="SFC-Art.html">Geometric Art</a>
+</li>
+<li>
+  <a href="Software.html">Software</a>
+</li>
+<li>
+  <a href="Training.html">Training</a>
+</li>
+<li>
+  <a href="Contact.html">Contact</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Training-3</h1>
+
+</div>
+
+
+<p style="color:black; font-size: 35px;margin-bottom: 30px;margin-top: 30px;">
+<span style="color:lightcoral; font-weight:bold;">Scalable Approaches
+for Large-Scale Genetic Association Analyses</span>
+</p>
+<p>
+<p><strong><ttt>Summary:</ttt></strong> Genome-wide association studies
+(GWAS) are crucial for identifying genetic variants associated with
+complex traits and diseases, providing insights into biology and
+potential therapeutic targets. However, GWAS rely on large sample sizes,
+creating a demand for highly scalable software to handle such massive
+datasets efficiently. In this training, we will explore three tools
+designed to perform GWAS on large-scale datasets (e.g., UK Biobank with
+500k individuals and millions of variants to be tested): REGENIE [1],
+fastGWA/fastGWA-GLMM [2,3,4], and CMA [5]. The session will include a
+basic explanation of the fundamental principles underlying the software
+and practical demonstrations of how to run these tools on publicly
+available datasets. For curious readers, some mathematical details of
+these tools are also provided in this material, although they are not
+intended to be covered in depth during the training.</p>
+<strong><ttt>Objective:</ttt></strong> This training aims to provide an
+applied session on running large-scale GWAS using REGENIE,
+fastGWA/fastGWA-GLMM, and CMA. While we will briefly touch on the
+underlying theory, the main emphasis will be on hands-on demonstrations
+with publicly available datasets.
+</p>
+<p> </p>
+<h3 style="color:black; font-weight:bold;margin-left:0; padding-left:0; ">
+Contents
+</h3>
+<ol>
+<li>
+<a href="#section1" style="color:#56B4E9; font-weight:bold;">Brief
+Overview of GWAS</a>
+</li>
+<li>
+<a href="#section2" style="color:#E69F00; font-weight:bold;">Installing
+the Software and Dataset</a>
+</li>
+<li>
+<a href="#section3" style="color:#56B4E9; font-weight:bold;">Introduction
+to fastGWA and fastGWA-GLMM</a>
+</li>
+<li>
+<a href="#section4" style="color:#E69F00; font-weight:bold;">Running
+GWAS with fastGWA and fastGWA-GLMM</a>
+</li>
+<li style="list-style-type:none;">
+<a style="color:gray; font-weight:bold;"><strong>☕ Coffee break (15
+mins)</strong> </a>
+</li>
+<li value="5">
+<a href="#section5" style="color:#56B4E9; font-weight:bold;">Introduction
+to REGENIE</a>
+</li>
+<li>
+<a href="#section6" style="color:#E69F00; font-weight:bold;">Running
+GWAS with REGENIE</a>
+</li>
+<li>
+<a href="#section7" style="color:#56B4E9; font-weight:bold;">Introduction
+to CMA</a>
+</li>
+<li>
+<a href="#section8" style="color:#E69F00; font-weight:bold;">Running
+GWAS with CMA</a>
+</li>
+<li>
+<a href="#section9" style="color:#E69F00; font-weight:bold;">(Optional)
+Running Meta-Analysis with CMA</a>
+</li>
+<li style="list-style-type:none;">
+<a href="#qa" style="color:magenta; font-weight:bold;"><strong>💬
+Questions / Comments / Feedback</strong></a>
+</li>
+<li style="list-style-type:none;">
+<a href="#section10" style="color:gray; font-weight:bold;">References</a>
+</li>
+</ol>
+<p>
+<span style="color:#E69F00;">⬤ <strong>Coding
+Session</strong></span><br> <span style="color:#56B4E9;">⬤
+<strong>Concepts &amp; Theory</strong></span>
+</p>
+<h3 id="section1" style="color:#56B4E9; font-weight:bold;margin-left:0; padding-left:0;">
+<ol style="list-style-type: decimal">
+<li>Brief Overview of GWAS
+</h3>
+<p>
+A genome-wide association study (GWAS) is a research approach used to
+identify genetic variants associated with specific traits or diseases by
+scanning the genomes of many individuals. In GWAS, researchers compare
+the frequency of single-nucleotide polymorphisms (SNPs) across the
+entire genome between individuals with different trait values, such as
+cases versus controls for a disease (binary traits) or variations in a
+continuous measurement like height or blood pressure (quantitative
+traits). This method can reveal genetic risk factors without prior
+knowledge of candidate genes, making it especially powerful for studying
+complex traits influenced by many genes and environmental factors.
+Insights from GWAS contribute to understanding biological pathways,
+improving disease risk prediction, and guiding precision medicine
+efforts.
+</p></li>
+</ol>
+<hr />
+<h4 style="color:purple; font-weight:bold;margin-left:0; padding-left:0;">
+Simple Linear Regression in GWAS:
+</h4>
+<table style="width:100%; border-collapse: collapse;">
+<tr>
+<td style="width:50%; vertical-align:middle; text-align:center;">
+<p><img src="GWAS.LR.jpg" width="100%" /></p>
+</td>
+<td style="width:50%; vertical-align:middle; text-align:left; font-size: 1.0em;">
+<p><span class="math display">\[
+y = g \cdot \beta_g + \epsilon
+\]</span></p>
+<p><strong>Where:</strong></p>
+<ul>
+<li><span class="math inline">\(y\)</span>: Trait or phenotype values
+for individuals</li>
+<li><span class="math inline">\(g\)</span>: Genotype coding for the
+variant <em>(e.g., # of A alleles: 0, 1, or 2)</em></li>
+<li><span class="math inline">\(\beta_g\)</span>: Estimated effect size
+of the genotype on the phenotype</li>
+<li><span class="math inline">\(\epsilon\)</span>: Random error
+term</li>
+</ul>
+</td>
+</tr>
+</table>
+<hr />
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Confounders in GWAS:
+</h4>
+<ul>
+<li>
+Population structure
+</li>
+<li>
+Related individuals
+</li>
+<li>
+Linkage disequilibrium (LD)
+</li>
+</ul>
+<p>
+Check the YouTube video for more information:
+<a href="https://www.youtube.com/watch?v=hCO1l32d0l0" target="_blank" style="color:#0072B2; font-weight:bold; text-decoration:none;">
+Watch on YouTube </a>
+</p>
+<hr />
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Linear Mixed Models (LMMs) in GWAS
+</h4>
+<p><span class="math display">\[
+y = X\beta + g_j \beta_j + u + \epsilon
+\]</span></p>
+<p><strong>Where:</strong></p>
+<ul>
+<li><span class="math inline">\(y\)</span>: Phenotype vector (<span
+class="math inline">\(n \times 1\)</span>) for all individuals<br />
+</li>
+<li><span class="math inline">\(X\beta\)</span>: Fixed effects for
+non-genetic covariates (e.g., age, sex, principal components)<br />
+</li>
+<li><span class="math inline">\(g_j \beta_j\)</span>: Fixed effect of
+the <span class="math inline">\(j\)</span>-th genetic variant being
+tested<br />
+</li>
+<li><span class="math inline">\(u\)</span>: Polygenic random effect,
+<span class="math inline">\(u \sim N(0, \sigma_g^2 K)\)</span>
+<ul>
+<li><span class="math inline">\(K\)</span>: Genetic relationship matrix
+(GRM), often stored in sparse form for efficiency (it can be computed
+from genotype data)</li>
+<li><span class="math inline">\(\sigma_g^2\)</span>: Genetic variance
+component<br />
+</li>
+</ul></li>
+<li><span class="math inline">\(\epsilon\)</span>: Residual error, <span
+class="math inline">\(\epsilon \sim N(0, \sigma_e^2
+\mathbf{I})\)</span></li>
+</ul>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Solving LMMs in GWAS
+</h4>
+<p>The generalised least squares estimate <span
+class="math inline">\(\widehat{\beta}_j\)</span> of the effect size of
+<span class="math inline">\(g_j\)</span> is obtained as:</p>
+<p><span class="math display">\[
+\widehat{\beta}_j = \frac{g_j^{T} \mathbf{V}^{-1} y}{g_j^{T}
+\mathbf{V}^{-1} g_j}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{V}\)</span> is the
+variance–covariance matrix of the phenotype, incorporating both
+polygenic and residual variance components:<br />
+<span class="math display">\[
+\mathbf{V} = K\cdot\sigma_g^2+\mathbf{I}\cdot\sigma_e^2
+\]</span></p>
+<p>The corresponding variance of <span
+class="math inline">\(\widehat{\beta}_j\)</span> is:</p>
+<p><span class="math display">\[
+\mathrm{Var}(\widehat{\beta}_j) = (g_j^{T} \mathbf{V}^{-1} g_j)^{-1}
+\]</span> The only unknowns in this solution are the variance components
+<span class="math inline">\(\sigma^2_g\)</span> and <span
+class="math inline">\(\sigma^2_e\)</span>, which are estimated using
+efficient restricted maximum likelihood (REML) methods.</p>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Hypothesis Testing in GWAS (LMMs)
+</h4>
+<p>In GWAS, statistical hypothesis testing is performed to determine
+whether a given genetic variant is associated with a trait of
+interest.<br />
+For each variant, we assess the following competing hypotheses:</p>
+<p><span class="math display">\[
+\begin{aligned}
+H_0: &amp; \quad \beta_j = 0 &amp; \text{(no association between variant
+\( g_j \) and phenotype \( y \))} \\
+H_1: &amp; \quad \beta_j \neq 0 &amp; \text{(variant \( g_j \) is
+associated with \( y \))}
+\end{aligned}
+\]</span></p>
+<p>Under the null hypothesis <span class="math inline">\(H_0\)</span>,
+the squared Wald statistic is given by: <span class="math display">\[
+T_j^2 = \frac{\widehat{\beta}_j^2}{\mathrm{Var}(\widehat{\beta}_j)}
+\;\sim\; \chi^2_1
+\]</span> where <span class="math inline">\(\widehat{\beta}_j\)</span>
+is the estimated effect size and <span
+class="math inline">\(\mathrm{Var}(\widehat{\beta}_j)\)</span> its
+variance.</p>
+<p>The statistical significance for variant <span
+class="math inline">\(j\)</span> is assessed by: <span
+class="math display">\[
+p_j = 1 - F_{\chi^2_1}(T_j^2)
+\]</span> where <span class="math inline">\(F_{\chi^2_1}(\cdot)\)</span>
+is the cumulative distribution function of the chi-square distribution
+with 1 degree of freedom.</p>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Evidence of Association in GWAS LMMs
+</h4>
+<p>A small <span class="math inline">\(p\)</span>-value suggests
+rejecting <span class="math inline">\(H_0\)</span> in favour of <span
+class="math inline">\(H_1\)</span>, meaning the variant is more likely
+to be associated with the trait. This naturally leads to the question:
+how small must the <span class="math inline">\(p\)</span>-value be to
+consider the evidence convincing?</p>
+<p>In GWAS, where millions of variants are tested, a stringent genome
+wide significance threshold is applied, often <span
+class="math inline">\(p &lt; 5 \times 10^{-8}\)</span>. This threshold
+approximates a Bonferroni correction for about one million effectively
+independent tests and addresses the challenge known as the <em>multiple
+testing problem</em> in GWAS.</p>
+<blockquote>
+<p><strong>Why use a stringent threshold in GWAS?</strong><br />
+In GWAS, millions of variants (<span class="math inline">\(M\)</span>)
+are tested across the genome. The expected number of false positives is
+approximately <span class="math inline">\(M \times \alpha\)</span>,
+where <span class="math inline">\(\alpha\)</span> is the chosen
+significance level.<br />
+Without adjustment, using a conventional <span
+class="math inline">\(\alpha = 0.05\)</span> would yield thousands of
+false positives purely by chance.<br />
+This motivates the adoption of a much smaller threshold, such as <span
+class="math inline">\(5 \times 10^{-8}\)</span>, to keep the average
+number of false positives at a reasonable level.</p>
+</blockquote>
+<p><strong>Key idea in LMMs:</strong><br />
+Linear mixed models account for both fixed and random effects, helping
+to control for confounders while efficiently testing the association
+between each genetic variant and the phenotype.</p>
+<blockquote>
+<p><strong>Note on LOCO (Leave-One-Chromosome-Out):</strong><br />
+GWAS methods use a LOCO scheme when generating polygenic predictions or
+fitting random effects.<br />
+In LOCO, the genetic relationship matrix (or polygenic score) is
+calculated excluding the chromosome currently being tested.<br />
+This prevents “proximal contamination” [6].</p>
+</blockquote>
+<hr />
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+GWAS Requires Large Sample Sizes
+</h4>
+<p>Genome-wide association studies typically test millions of genetic
+variants across the genome. Because each variant often explains only a
+very small fraction of the variation in a trait, detecting true
+associations with sufficient statistical power requires large numbers of
+participants. Larger sample sizes reduce random noise, improve the
+precision of effect size estimates, and help identify variants with
+small effects that would be missed in smaller datasets. This scale of
+data creates a strong need for highly efficient and scalable
+computational tools that can process and analyse results within a
+reasonable time frame and with optimal computational resources.</p>
+<h3 id="section2" style="color:#E69F00; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="2" style="list-style-type: decimal">
+<li>Installing the Software and Dataset
+</h3></li>
+</ol>
+<p>
+This training course covers scalable GWAS tools
+<strong>REGENIE</strong>, <strong>fastGWA/fastGWA-GLMM</strong>, and
+<strong>CMA</strong>, all using the same prepared dataset and a shared
+set of software dependencies. Follow the steps below to set up your
+environment, install the required software, and download the dataset for
+use throughout the course.
+</p>
+<ol>
+<li>
+<strong>Clone the CMA Repository (includes setup instructions for the
+software and dataset)</strong>
+<pre><code>git clone https://git.ecdf.ed.ac.uk/cma/snake-cma.git</code></pre>
+</li>
+<li>
+<strong>Install dependencies</strong> — choose one of the following:
+<ul>
+<li>
+<em>Using Conda (recommended)</em>
+<pre><code>conda env create -f snake-cma/environment.yml
+conda activate snake-cma</code></pre>
+</li>
+<li>
+<em>Using Pip</em>
+<pre><code>pip install -r snake-cma/requirements.txt</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<strong>Download the example dataset and software binaries</strong>
+<p>
+The provided scripts will download static versions of PLINK, REGENIE,
+and GCTA (contains fastGWA and fastGWA-GLMM), and generate the <a
+href="https://www.nature.com/articles/nature09298">HapMap3</a>-based
+dataset that will be used in all hands-on sessions.
+</p>
+<pre><code>chmod +x ./snake-cma/examples/download_software.sh ./snake-cma/examples/generate_dataset.sh
+
+bash ./snake-cma/examples/download_software.sh
+bash ./snake-cma/examples/generate_dataset.sh</code></pre>
+This will create:
+<ul>
+<li>
+<code>./snake-cma/examples/software/</code> — Contains required
+software: REGENIE, fastGWA/fastGWA-GLMM, and CMA
+</li>
+<li>
+<code>./snake-cma/examples/data/</code> — Contains required dataset used
+in exercises
+</li>
+</ul>
+</li>
+</ol>
+<p>
+Before starting any tutorial, ensure your <code>snake-cma</code>
+environment is active (if not already):
+</p>
+<pre><code>conda activate snake-cma</code></pre>
+<p>
+Next, save the current working directory (location of the cloned
+<code>snake-cma</code> repository) into a variable. This will be reused
+throughout the tutorial.
+</p>
+<pre class="bash"><code>dir_user=$(pwd)</code></pre>
+<p>
+At this point, you can quickly check that the example dataset has been
+generated correctly by listing its contents:
+</p>
+<pre class="bash"><code>ls -lh ${dir_user}/snake-cma/examples/data</code></pre>
+<p>
+<p>The <code>data</code> folder should contain the following files:</p>
+<table>
+<colgroup>
+<col width="36%" />
+<col width="63%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">File</th>
+<th align="left">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>binary_trait.phen</code></td>
+<td align="left">Phenotype file for a binary trait (BT).</td>
+</tr>
+<tr class="even">
+<td align="left"><code>continuous_trait.phen</code></td>
+<td align="left">Phenotype file for a quantitative trait (QT).</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>HAPMAP3.covars.cov</code></td>
+<td align="left">Covariate file for REGENIE.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>HAPMAP3.covars.qcovar</code></td>
+<td align="left">Covariate file for fastGWA/fastGWA-GLMM
+(Quantitative)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>HAPMAP3.covars.bcovar</code></td>
+<td align="left">Covariate file for fastGWA/fastGWA-GLMM (Discrete)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>HAPMAP3.qc.genotype.{bed,bim,fam}</code></td>
+<td align="left">Genotype files in <a
+href="https://www.cog-genomics.org/plink/1.9/formats#bed">PLINK binary
+format</a> (<code>.bed</code>, <code>.bim</code>,
+<code>.fam</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="section3" style="color:#56B4E9; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="3" style="list-style-type: decimal">
+<li>Introduction to fastGWA and fastGWA-GLMM
+</h3>
+<p></li>
+</ol>
+<p>fastGWA is an efficient mixed linear model (MLM) approach implemented
+in the GCTA software for genome-wide association studies that can handle
+large cohorts while accounting for population structure and relatedness.
+It achieves speed by using a sparse genetic relationship matrix (GRM),
+which stores only relationships above a certain relatedness threshold,
+dramatically reducing memory and computational costs compared to a full
+GRM. This makes fastGWA well suited for quantitative traits in
+biobank-scale datasets.</p>
+fastGWA-GLMM is an extension of fastGWA designed for binary traits,
+using a generalized linear mixed model to correctly model case–control
+outcomes while still leveraging the sparse GRM for computational
+efficiency. By fitting the model on the observed binary phenotype and
+using approximate inference, fastGWA-GLMM can scale to millions of
+variants and hundreds of thousands of individuals while maintaining
+control over confounding from relatedness and population stratification.
+</p>
+<hr />
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Linear Mixed Model for Quantitative Traits
+</h4>
+<p>For a given genetic variant <span
+class="math inline">\(j\)</span>:</p>
+<p><span class="math display">\[
+y = X\beta + g_j \alpha_j + u + \epsilon
+\]</span></p>
+<p><strong>Where:</strong></p>
+<ul>
+<li><span class="math inline">\(y\)</span>: Phenotype vector (<span
+class="math inline">\(n \times 1\)</span>)<br />
+</li>
+<li><span class="math inline">\(X\)</span>: Covariate matrix (e.g., age,
+sex, principal components)<br />
+</li>
+<li><span class="math inline">\(\beta\)</span>: Fixed effect
+coefficients for covariates<br />
+</li>
+<li><span class="math inline">\(g_j\)</span>: Genotype vector for
+variant <span class="math inline">\(j\)</span> (0, 1, 2 dosage)<br />
+</li>
+<li><span class="math inline">\(\alpha_j\)</span>: Effect size of
+variant <span class="math inline">\(j\)</span><br />
+</li>
+<li><span class="math inline">\(u\)</span>: Polygenic random effect,
+<span class="math inline">\(u \sim N(0, \sigma_g^2 K)\)</span>
+<ul>
+<li><span class="math inline">\(K\)</span>: Genetic relationship matrix
+(GRM), often sparse for efficiency<br />
+</li>
+</ul></li>
+<li><span class="math inline">\(\epsilon\)</span>: Residual error, <span
+class="math inline">\(\epsilon \sim N(0, \sigma_e^2
+\mathbf{I})\)</span></li>
+</ul>
+<p>The null hypothesis <span class="math inline">\(H_0: \alpha_j =
+0\)</span> is tested for each variant.</p>
+<hr />
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Generalized Linear Mixed Model for Binary Traits
+</h4>
+<p>For binary phenotypes (<span class="math inline">\(y_i \in
+\{0,1\}\)</span>), a logistic link is used:</p>
+<p><span class="math display">\[
+\text{logit}\left[ P(y = 1) \right] = X \beta + g_{j} \alpha_j + u
+\]</span></p>
+<p><strong>Where:</strong></p>
+<ul>
+<li><span class="math inline">\(\text{logit}(p) = \log \left(
+\frac{p}{1-p} \right)\)</span><br />
+</li>
+<li><span class="math inline">\(u \sim N(0, \sigma_g^2 K)\)</span>
+models genome-wide background effects<br />
+</li>
+<li>The residual variance is absorbed in the logistic model
+framework</li>
+</ul>
+<hr />
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Computational Note
+</h4>
+<ul>
+<li>Both fastGWA and fastGWA-GLMM models estimate <span
+class="math inline">\(\sigma_g^2\)</span> and <span
+class="math inline">\(\sigma_e^2\)</span> <strong>once</strong> under
+the null and reuse them across variants.<br />
+</li>
+<li>Using a <strong>sparse GRM</strong> drastically reduces memory and
+computation.<br />
+
+</p></li>
+</ul>
+<h3 id="section4" style="color:#E69F00; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="4" style="list-style-type: decimal">
+<li>Running GWAS with fastGWA and fastGWA-GLMM
+</h3>
+<p></li>
+</ol>
+<p>We will follow the instructions from the <a
+href="https://yanglab.westlake.edu.cn/software/gcta/#GWASAnalysis">GCTA
+website</a> to perform GWAS using fastGWA and fastGWA-GLMM.</p>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 1:</span> Running fastGWA
+Interactively (Quantitative Trait)
+</h4>
+<pre class="bash"><code>dir_data=${dir_user}/snake-cma/examples/data
+dir_cma=${dir_user}/snake-cma/examples/cma-tests
+
+mkdir -p ${dir_cma}
+
+geno=${dir_data}/HAPMAP3.qc.genotype
+pheno=${dir_data}/continuous_trait.phen
+covars=${dir_data}/HAPMAP3.covars.cov
+output=${dir_cma}/ex1-gcta-qt
+grm=${dir_data}/HAPMAP3.qc.genotype.grm_matrix
+
+gcta=${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64
+
+echo Starting..
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  ${gcta} --bfile ${geno} \
+      --make-grm \
+      --sparse-cutoff 0.05 \
+      --out ${grm}
+fi
+
+${gcta} --bfile ${geno} \
+    --grm-sparse ${grm} \
+    --fastGWA-mlm \
+    --pheno ${pheno} \
+    --qcovar ${covars} \
+    --out ${output}
+
+echo Done..</code></pre>
+<p>
+Once the analysis is complete, you can inspect the output summary
+statistics generated by fastGWA. The results file contains genome
+information such as <code>CHR</code> (chromosome), <code>SNP</code>
+(variant identifier), and <code>POS</code> (base-pair position), along
+with association results such as <code>BETA</code> (effect size
+estimate), <code>SE</code> (standard error of the effect size), and
+<code>P</code> (p-value for association). These columns allow you to
+interpret the strength and direction of association between each variant
+and the phenotype.
+</p>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 2:</span> Perform GWAS with fastGWA
+interactively using both –qcovar and –covar options
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Demonstrate
+how fastGWA automatically transforms discrete covariates into dummy
+variables and merges quantitative and discrete covariates into a single
+combined covariate file.
+</p>
+<details>
+<summary>
+<em>Hint</em>
+</summary>
+Use the <code>–qcovar</code> option for continuous (quantitative)
+covariates and the <code>–covar</code> option for discrete covariates in
+fastGWA. You need to use <code>HAPMAP3.covars.qcovar</code> and
+<code>HAPMAP3.covars.bcovar</code> respectively.
+</details>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<pre class="bash"><code>dir_data=${dir_user}/snake-cma/examples/data
+dir_cma=${dir_user}/snake-cma/examples/cma-tests
+
+mkdir -p ${dir_cma}
+
+geno=${dir_data}/HAPMAP3.qc.genotype
+pheno=${dir_data}/continuous_trait.phen
+qcovars=${dir_data}/HAPMAP3.covars.qcovar
+bcovars=${dir_data}/HAPMAP3.covars.bcovar
+output=${dir_cma}/ex2-gcta-qt
+grm=${dir_data}/HAPMAP3.qc.genotype.grm_matrix
+
+gcta=${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64
+
+echo Starting..
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  ${gcta} --bfile ${geno} \
+      --make-grm \
+      --sparse-cutoff 0.05 \
+      --out ${grm}
+fi
+
+${gcta} --bfile ${geno} \
+    --grm-sparse ${grm} \
+    --fastGWA-mlm \
+    --pheno ${pheno} \
+    --qcovar ${qcovars} \
+    --covar ${bcovars} \
+    --out ${output}
+
+echo Done..</code></pre>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 3:</span> Run GWAS with fastGWA via
+a Bash script
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small Bash script that builds a sparse GRM (if missing) and runs
+fastGWA for a quantitative trait. Make sure to change the
+<code>output</code> variable to a unique name before running.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<ol style="list-style-type: decimal">
+<li><p>Create the script file:</p>
+<pre class="bash"><code>nano ex3.sh</code></pre></li>
+<li><p>Paste the solution below, then save and close:</p>
+<pre class="bash"><code>#!/bin/bash
+set -euo pipefail
+
+dir_user=&quot;${1:?ERROR: provide repo root as first argument}&quot;
+dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/continuous_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.cov&quot;
+output=&quot;${dir_cma}/ex3-gcta-qt&quot;
+grm=&quot;${dir_data}/HAPMAP3.qc.genotype.grm_matrix&quot;
+
+gcta=&quot;${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64&quot;
+
+echo &quot;Starting..&quot;
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  &quot;${gcta}&quot; \
+    --bfile &quot;${geno}&quot; \
+    --make-grm \
+    --sparse-cutoff 0.05 \
+    --out &quot;${grm}&quot;
+fi
+
+&quot;${gcta}&quot; \
+  --bfile &quot;${geno}&quot; \
+  --grm-sparse &quot;${grm}&quot; \
+  --fastGWA-mlm \
+  --pheno &quot;${pheno}&quot; \
+  --qcovar &quot;${covars}&quot; \
+  --out &quot;${output}&quot;
+
+echo &quot;Done..&quot;</code></pre></li>
+<li><p>Run the script (pass the repository root you saved earlier as
+dir_user):</p>
+<pre class="bash"><code>bash ex3.sh &quot;${dir_user}&quot;</code></pre></li>
+</ol>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 4 (Optional):</span> Run GWAS with
+fastGWA using an HPC job script on your cluster
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small job script for your local HPC cluster that builds a sparse
+GRM (if missing) and runs fastGWA for a quantitative trait. Make sure to
+change the <code>output</code> variable to a unique name before running.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+A solution for Eddie (the University of Edinburgh HPC cluster) will be
+provided during the in-person training.
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 5:</span> Running fastGWA-GLMM
+Interactively (Binary Trait)
+</h4>
+<pre class="bash"><code>dir_data=${dir_user}/snake-cma/examples/data
+dir_cma=${dir_user}/snake-cma/examples/cma-tests
+
+mkdir -p ${dir_cma}
+
+geno=${dir_data}/HAPMAP3.qc.genotype
+pheno=${dir_data}/binary_trait.phen
+covars=${dir_data}/HAPMAP3.covars.cov
+output=${dir_cma}/ex5-gcta-bt
+grm=${dir_data}/HAPMAP3.qc.genotype.grm_matrix
+
+gcta=${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64
+
+echo Starting..
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  ${gcta} --bfile ${geno} \
+      --make-grm \
+      --sparse-cutoff 0.05 \
+      --out ${grm}
+fi
+
+${gcta} --bfile ${geno} \
+    --grm-sparse ${grm} \
+    --fastGWA-mlm-binary \
+    --pheno ${pheno} \
+    --qcovar ${covars} \
+    --joint-covar \
+    --out ${output}
+
+echo Done..</code></pre>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 6:</span> Run GWAS with
+fastGWA-GLMM via a Bash script
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small Bash script that builds a sparse GRM (if missing) and runs
+fastGWA-GLMM for a binary trait. Make sure to change the output variable
+to a unique name before running.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<ol style="list-style-type: decimal">
+<li><p>Create the script file:</p>
+<pre class="bash"><code>nano ex6.sh</code></pre></li>
+<li><p>Paste the solution below, then save and close:</p>
+<pre class="bash"><code>#!/bin/bash
+set -euo pipefail
+
+dir_user=&quot;${1:?ERROR: provide repo root as first argument}&quot;
+dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/binary_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.cov&quot;
+output=&quot;${dir_cma}/ex6-gcta-bt&quot;
+grm=&quot;${dir_data}/HAPMAP3.qc.genotype.grm_matrix&quot;
+
+gcta=&quot;${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64&quot;
+
+echo &quot;Starting..&quot;
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  &quot;${gcta}&quot; \
+    --bfile &quot;${geno}&quot; \
+    --make-grm \
+    --sparse-cutoff 0.05 \
+    --out &quot;${grm}&quot;
+fi
+
+&quot;${gcta}&quot; \
+  --bfile &quot;${geno}&quot; \
+  --grm-sparse &quot;${grm}&quot; \
+  --fastGWA-mlm-binary \
+  --joint-covar \
+  --pheno &quot;${pheno}&quot; \
+  --qcovar &quot;${covars}&quot; \
+  --out &quot;${output}&quot;
+
+echo &quot;Done..&quot;</code></pre></li>
+<li><p>Run the script (pass the repository root you saved earlier as
+dir_user):</p>
+<pre class="bash"><code>bash ex6.sh &quot;${dir_user}&quot;</code></pre></li>
+</ol>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 7:</span> Run GWAS with
+fastGWA-GLMM via a Bash script using only quantitative covariates
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Assess how
+results differ when including only quantitative covariates compared to
+using the full set of covariates.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<ol style="list-style-type: decimal">
+<li><p>Create the script file:</p>
+<pre class="bash"><code>nano ex7.sh</code></pre></li>
+<li><p>Paste the solution below, then save and close:</p>
+<pre class="bash"><code>#!/bin/bash
+set -euo pipefail
+
+dir_user=&quot;${1:?ERROR: provide repo root as first argument}&quot;
+dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/binary_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.qcovar&quot;
+output=&quot;${dir_cma}/ex7-gcta-bt&quot;
+grm=&quot;${dir_data}/HAPMAP3.qc.genotype.grm_matrix&quot;
+
+gcta=&quot;${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64&quot;
+
+echo &quot;Starting..&quot;
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  &quot;${gcta}&quot; \
+    --bfile &quot;${geno}&quot; \
+    --make-grm \
+    --sparse-cutoff 0.05 \
+    --out &quot;${grm}&quot;
+fi
+
+&quot;${gcta}&quot; \
+  --bfile &quot;${geno}&quot; \
+  --grm-sparse &quot;${grm}&quot; \
+  --fastGWA-mlm-binary \
+  --joint-covar \
+  --pheno &quot;${pheno}&quot; \
+  --qcovar &quot;${covars}&quot; \
+  --out &quot;${output}&quot;
+
+echo &quot;Done..&quot;</code></pre></li>
+<li><p>Run the script (pass the repository root you saved earlier as
+dir_user):</p>
+<pre class="bash"><code>bash ex7.sh &quot;${dir_user}&quot;</code></pre></li>
+</ol>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 8 (Optional):</span> Run GWAS with
+fastGWA using an HPC job script on your cluster
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> write and
+run a small job script for your local HPC cluster that builds a sparse
+GRM (if missing) and runs fastGWA-GLMM for a quantitative trait. Make
+sure to change the <code>output</code> variable to a unique name before
+running.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+A solution for Eddie (the University of Edinburgh HPC cluster) will be
+provided during the in-person training.
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 9:</span> Run GWAS with Multiple
+Phenotypes using fastGWA or fastGWA-GLMM
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> fastGWA and
+fastGWA-GLMM do not support analysing multiple phenotypes in a single
+run. This exercise shows how to run one phenotype at a time using the
+<code>–mpheno</code> option.
+</p>
+<p>The example below demonstrates how to run GWAS for the second trait
+(Y2) when the phenotype file contains two traits, Y1 and Y2.</p>
+<pre class="bash"><code>dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/binary_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.qcovar&quot;
+output=&quot;${dir_cma}/ex9a-gcta-bt&quot;
+grm=&quot;${dir_data}/HAPMAP3.qc.genotype.grm_matrix&quot;
+
+gcta=&quot;${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64&quot;
+
+# Create another Phenotype file with two trait values (Y1 and Y2)
+# We will be using only Y2!
+
+pheno_v2=&quot;${dir_data}/binary_trait.v2.phen&quot;
+awk &#39;BEGIN{OFS=&quot; &quot;} NR==1{print $0,&quot;Y2&quot;; next} {L[NR]=$0; Y[++n]=$3} \
+     END{srand(); for(i=1;i&lt;=n;i++){j=int(1+rand()*n); t=Y[i]; Y[i]=Y[j]; Y[j]=t} \
+     for(i=2;i&lt;=n+1;i++){split(L[i],a,/ +/); print a[1],a[2],a[3],Y[i-1]}}&#39; &quot;${pheno}&quot; &gt; &quot;${pheno_v2}&quot;
+
+echo &quot;Starting..&quot;
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  &quot;${gcta}&quot; \
+    --bfile &quot;${geno}&quot; \
+    --make-grm \
+    --sparse-cutoff 0.05 \
+    --out &quot;${grm}&quot;
+fi
+
+&quot;${gcta}&quot; \
+  --bfile &quot;${geno}&quot; \
+  --grm-sparse &quot;${grm}&quot; \
+  --fastGWA-mlm-binary \
+  --joint-covar \
+  --pheno &quot;${pheno_v2}&quot; \
+  --mpheno 2 \
+  --qcovar &quot;${covars}&quot; \
+  --out &quot;${output}&quot;
+
+echo &quot;Done..&quot;</code></pre>
+<p>You can also loop over the two traits and run fastGWA or fastGWA-GLMM
+in a single script, executing two GWAS analyses back to back.</p>
+<pre class="bash"><code>dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/binary_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.qcovar&quot;
+output=&quot;${dir_cma}/ex9b-gcta-bt&quot;
+grm=&quot;${dir_data}/HAPMAP3.qc.genotype.grm_matrix&quot;
+
+gcta=&quot;${dir_user}/snake-cma/examples/software/gcta64/gcta-1.94.4-linux-kernel-3-x86_64/gcta64&quot;
+
+pheno_v3=&quot;${dir_data}/binary_trait.v3.phen&quot;
+awk &#39;BEGIN{OFS=&quot; &quot;} NR==1{print $0,&quot;Y2&quot;; next} {L[NR]=$0; Y[++n]=$3} \
+     END{srand(); for(i=1;i&lt;=n;i++){j=int(1+rand()*n); t=Y[i]; Y[i]=Y[j]; Y[j]=t} \
+     for(i=2;i&lt;=n+1;i++){split(L[i],a,/ +/); print a[1],a[2],a[3],Y[i-1]}}&#39; &quot;${pheno}&quot; &gt; &quot;${pheno_v3}&quot;
+
+echo &quot;Starting..&quot;
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  &quot;${gcta}&quot; \
+    --bfile &quot;${geno}&quot; \
+    --make-grm \
+    --sparse-cutoff 0.05 \
+    --out &quot;${grm}&quot;
+fi
+
+for m in 1 2; do
+  out=${output}&quot;.trait_${m}&quot;
+  echo &quot;Running GWAS for phenotype column ${m}...&quot;
+  &quot;${gcta}&quot; \
+    --bfile &quot;${geno}&quot; \
+    --grm-sparse &quot;${grm}&quot; \
+    --fastGWA-mlm-binary \
+    --joint-covar \
+    --pheno &quot;${pheno_v3}&quot; \
+    --mpheno ${m} \
+    --qcovar &quot;${qcovars}&quot; \
+    --out &quot;${out}&quot;
+done
+
+echo &quot;Done..&quot;</code></pre>
+<blockquote>
+<p>Note that in GCTA, the default phenotype index is –mpheno 1. This
+means that if no –mpheno option is specified, GCTA
+(fastGWA/fastGWA-GLMM) will run GWAS using the first phenotype in the
+file.</p>
+</blockquote>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 10 (Optional):</span> Split GRM
+Calculation
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Practice
+splitting GRM computation into multiple parts, running them in parallel,
+and merging them before creating a sparse GRM.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<pre class="bash"><code># (Optional) Build GRM in parts, then merge
+
+# Example: split GRM into two parts (these can be run in parallel)
+${gcta} --bfile ${geno} --make-grm-part 2 1 --thread-num 8 --out ${output}_grm_partial
+${gcta} --bfile ${geno} --make-grm-part 2 2 --thread-num 8 --out ${output}_grm_partial
+
+# Merge GRM parts
+cat ${output}_grm_partial.part_2_*.grm.id    &gt; ${output}_grm_partial_merged.grm.id
+cat ${output}_grm_partial.part_2_*.grm.bin   &gt; ${output}_grm_partial_merged.grm.bin
+cat ${output}_grm_partial.part_2_*.grm.N.bin &gt; ${output}_grm_partial_merged.grm.N.bin
+
+# Create a sparse GRM
+${gcta} --grm ${output}_grm_partial_merged --make-bK-sparse 0.05 --out ${output}_grm_partial_merged.sparse</code></pre>
+</details>
+</p>
+<p> </p>
+<hr />
+<p>
+<strong>☕ Coffee break:</strong> We will take a 15-minute break here
+before continuing with the tutorial.
+</p>
+<hr />
+<p> </p>
+<h3 id="section5" style="color:#56B4E9; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="5" style="list-style-type: decimal">
+<li>Introduction to REGENIE
+</h3>
+<p></li>
+</ol>
+<p>REGENIE is a whole-genome regression method optimised for performing
+GWAS efficiently in large datasets. It employs a two-step approach: In
+Step 1, a two-level ridge regression model is fit to a subset of genetic
+variants to capture polygenic effects. This step generates
+leave-one-chromosome-out (LOCO) predictions of phenotypes. In Step 2,
+individual genetic variants are tested for association with the trait,
+adjusting for the LOCO predictions to account for polygenic effects and
+potential confounders. The key computational innovation of REGENIE lies
+in Step 1, where the genotype matrix is divided into large blocks. Each
+block undergoes first-level ridge regression to generate intermediate
+predictors, which are then combined in a second-level ridge regression
+to produce LOCO predictions for the trait. This block-wise
+parallelisation significantly reduces the computational burden, enabling
+the method to scale to datasets with hundreds of thousands of samples
+while preserving accuracy. REGENIE’s efficiency makes it particularly
+well-suited for large-scale biobank studies, where high computational
+demands are common.</p>
+<div class="figure" style="text-align: center">
+<img src="GWAS.REGENIE.png" alt="**Figure 1.** REGENIE Workflow" width="676" />
+<p class="caption">
+<strong>Figure 1.</strong> REGENIE Workflow
+</p>
+</div>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Mathematical framework of REGENIE
+</h4>
+<p>REGENIE conducts whole-genome regression in two computationally
+efficient steps, making it well-suited for large biobank-scale
+datasets.</p>
+<p>For a quantitative trait, REGENIE begins with the linear mixed
+model:</p>
+<p><span class="math display">\[
+y = X\alpha + G \beta + \varepsilon, \tag{1}
+\]</span></p>
+<p>where <span class="math inline">\(G\)</span> represents the
+standardised genotype matrix, <span
+class="math inline">\(\alpha\)</span> denotes the fixed effects of
+covariates, <span class="math inline">\(\beta\)</span> indicates the
+effect sizes of genotypes, and <span
+class="math inline">\(\varepsilon\)</span> is the random noise,
+characterised by:</p>
+<p><span class="math display">\[
+\beta \sim N(0, \sigma_g^2 \mathbf{I}),
+\quad \varepsilon \sim N(0, \sigma_e^2 \mathbf{I}).
+\]</span></p>
+<p>For a binary trait, the first stage (Level-0) remains the same, while
+the second stage (Level-1) employs logistic regression via the logit
+link. In Step 2, logistic regression is again used for association
+testing.</p>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Foundations of Step 1 in REGENIE
+</h4>
+<p>In <strong>Step 1</strong> of REGENIE, consider the following
+notation:</p>
+<ul>
+<li><span class="math inline">\(y \in \mathbb{R}^n\)</span> — phenotype
+vector (quantitative or binary, after any required transformation)<br />
+</li>
+<li><span class="math inline">\(X \in \mathbb{R}^{n \times p}\)</span> —
+fixed-effect covariates (e.g., age, sex, principal components)<br />
+</li>
+<li><span class="math inline">\(G \in \mathbb{R}^{n \times m}\)</span> —
+standardised genotype matrix for <span class="math inline">\(m\)</span>
+variants<br />
+</li>
+<li><span class="math inline">\(\alpha \in \mathbb{R}^p\)</span> —
+fixed-effect coefficients<br />
+</li>
+<li><span class="math inline">\(\beta \in \mathbb{R}^m\)</span> —
+genome-wide SNP effects<br />
+</li>
+<li><span class="math inline">\(\varepsilon \in \mathbb{R}^n\)</span> —
+residual errors</li>
+</ul>
+ 
+<ol type="A">
+<li>
+<p><b>Simplifying the model</b></p>
+<p>The full model is given by:</p>
+<p><span class="math display">\[
+  y = X \alpha + G \beta + \varepsilon.
+  \]</span></p>
+<p>To remove the contribution of the fixed covariates <span
+class="math inline">\(X\)</span>, all variables are projected onto the
+orthogonal complement of the column space of <span
+class="math inline">\(X\)</span> using the projection matrix:</p>
+<p><span class="math display">\[
+  P_X = \mathbf{I} - X (X^\top X)^{-1} X^\top.
+  \]</span></p>
+<p>Since <span class="math inline">\(P_X X = 0\)</span>, pre-multiplying
+the model by <span class="math inline">\(P_X\)</span> yields:</p>
+<p><span class="math display">\[
+  \widetilde{y} = \widetilde{G} \beta + \widetilde{\varepsilon}, \tag{2}
+  \]</span></p>
+<p>where:</p>
+<p><span class="math display">\[
+  \widetilde{y} = P_X y,
+  \quad \widetilde{G} = P_X G,
+  \quad \widetilde{\varepsilon} = P_X \varepsilon.
+  \]</span></p>
+<p>Equation (2) is therefore the covariate-adjusted model used in
+Step 1.</p>
+ 
+</li>
+<li>
+<p><b>Level-0 Ridge Regression</b></p>
+<p>The matrix <span class="math inline">\(\widetilde{G}\)</span> is
+partitioned into <span class="math inline">\(B\)</span> non-overlapping
+blocks:</p>
+<p><span class="math display">\[
+  \widetilde{G} = \big[ \widetilde{G}_1 \; \widetilde{G}_2 \; \cdots \;
+\widetilde{G}_B \big],
+  \]</span></p>
+<p>where each block <span class="math inline">\(\widetilde{G}_i \in
+\mathbb{R}^{n \times m_i}\)</span> contains <span
+class="math inline">\(m_i\)</span> variants.</p>
+<p>For each block <span class="math inline">\(\widetilde{G}_i\)</span>,
+ridge regression models are fitted for a set of <span
+class="math inline">\(J\)</span> penalty parameters <span
+class="math inline">\(\{\lambda_1, \ldots, \lambda_J\}\)</span>:</p>
+<p><span class="math display">\[
+  \widehat{\beta}_{i, \lambda_j} =
+  \arg\min_{\beta \in \mathbb{R}^{m_i}}
+  \left\{ \|\widetilde{y} - \widetilde{G}_i \beta\|_2^2
+  + \lambda_j \|\beta\|_2^2 \right\}.
+  \]</span></p>
+<p>The fitted predictors for block <span
+class="math inline">\(i\)</span> and penalty <span
+class="math inline">\(\lambda_j\)</span> are:</p>
+<p><span class="math display">\[
+  \widehat{y}_{i, \lambda_j} = \widetilde{G}_i \widehat{\beta}_{i,
+\lambda_j}.
+  \]</span></p>
+<p>This produces <span class="math inline">\(J \times B\)</span>
+predictors in total:</p>
+<p><span class="math display">\[
+  \widehat{Y}^{(0)} = \big[ \widehat{y}_{1,\lambda_1}, \dots,
+\widehat{y}_{1,\lambda_J}, \widehat{y}_{2,\lambda_1}, \dots,
+\widehat{y}_{B,\lambda_J} \big].
+  \]</span></p>
+<p>Since each block can be processed independently, this stage is highly
+parallelisable, substantially reducing computational cost.</p>
+ 
+</li>
+<li>
+<p><b>Level-1 Ridge Regression (LOCO)</b></p>
+<p>In the second stage, the <span class="math inline">\(J \times
+B\)</span> predictors from Level-0 are combined via ridge
+regression:</p>
+<p><span class="math display">\[
+  \widehat{\gamma} =
+  \arg\min_{\gamma \in \mathbb{R}^{J B}}
+  \left\{ \|\widetilde{y} - \widehat{Y}^{(0)} \gamma\|_2^2
+  + \lambda^{(1)} \|\gamma\|_2^2 \right\}.
+  \]</span></p>
+<p>Here, <span class="math inline">\(\lambda^{(1)}\)</span> is selected
+from a set of shrinkage parameters to minimise the prediction error.</p>
+<p>REGENIE employs a <b>Leave-One-Chromosome-Out (LOCO)</b> procedure to
+avoid proximal contamination:</p>
+<ul>
+<li>For each chromosome <span class="math inline">\(c\)</span>,
+predictors derived from variants on chromosome <span
+class="math inline">\(c\)</span> are excluded when fitting the Level-1
+model.<br />
+</li>
+<li>The resulting LOCO predictor, <span
+class="math inline">\(\widehat{y}^{(1)}_{(-c)}\)</span>, is used in
+Step 2 when testing variants on chromosome <span
+class="math inline">\(c\)</span>.<br />
+</li>
+<li>This generates 22/23 LOCO predictions for a human dataset.
+</li>
+</ol></li>
+</ul>
+<h3 id="section6" style="color:#E69F00; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="6" style="list-style-type: decimal">
+<li>Running GWAS with REGENIE
+</h3>
+<p>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 11 (Optional):</span> Running
+REGENIE Interactively (Quantitative Trait)
+</h4></li>
+</ol>
+<pre class="bash"><code>dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/continuous_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.cov&quot;
+output=&quot;${dir_cma}/ex11-regenie-qt&quot;
+
+reg=&quot;${dir_user}/snake-cma/examples/software/regenie/regenie_v3.2.1.gz_x86_64_Linux&quot;
+plink2=&quot;${dir_user}/snake-cma/examples/software/plink2/plink2&quot;
+
+echo &quot;Starting...&quot;</code></pre>
+<pre class="bash"><code># REGENIE Step 1
+&quot;${reg}&quot; \
+  --step 1 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --bsize 1000 \
+  --lowmem \
+  --lowmem-prefix &quot;${output}_step1_cache&quot; \
+  --out &quot;${output}_step1&quot;</code></pre>
+<pre class="bash"><code># REGENIE Step 2
+&quot;${reg}&quot; \
+  --step 2 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --pred &quot;${output}_step1_pred.list&quot; \
+  --bsize 2000 \
+  --minMAC 20 \
+  --out &quot;${output}_step2&quot;
+
+echo &quot;Done.&quot;</code></pre>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 12:</span> Run GWAS with REGENIE
+for a quantitative trait via a Bash script
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small Bash script that runs REGENIE for a quantitative trait. Make
+sure to change the <code>output</code> variable to a unique name before
+running.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<ol style="list-style-type: decimal">
+<li><p>Create the script file:</p>
+<pre class="bash"><code>nano ex12.sh</code></pre></li>
+<li><p>Paste the solution below, then save and close:</p>
+<pre class="bash"><code>#!/bin/bash
+set -euo pipefail
+
+dir_user=&quot;${1:?ERROR: provide repo root as first argument}&quot;
+dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/continuous_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.cov&quot;
+output=&quot;${dir_cma}/ex12-regenie-qt&quot;
+reg=&quot;${dir_user}/snake-cma/examples/software/regenie/regenie_v3.2.1.gz_x86_64_Linux&quot;
+
+echo &quot;Starting...&quot;
+
+# REGENIE Step 1
+&quot;${reg}&quot; \
+  --step 1 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --bsize 1000 \
+  --lowmem \
+  --lowmem-prefix &quot;${output}_step1_cache&quot; \
+  --out &quot;${output}_step1&quot;
+
+# REGENIE Step 2
+&quot;${reg}&quot; \
+  --step 2 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --pred &quot;${output}_step1_pred.list&quot; \
+  --bsize 2000 \
+  --minMAC 20 \
+  --out &quot;${output}_step2&quot;
+
+echo &quot;Done.&quot;</code></pre></li>
+<li><p>Run the script (pass the repository root you saved earlier as
+dir_user):</p>
+<pre class="bash"><code>bash ex12.sh &quot;${dir_user}&quot;</code></pre></li>
+</ol>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 13 (Optional):</span> Run GWAS with
+REGENIE for a quantitative trait using an HPC job script on your cluster
+</h4>
+<p>
+<p><span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small job script for your local HPC cluster that runs REGENIE for
+a quantitative trait. Make sure to change the <code>output</code>
+variable to a unique name before running.</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+A solution for Eddie (the University of Edinburgh HPC cluster) will be
+provided during the in-person training.
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 14:</span> Running REGENIE
+Interactively (Binary Trait)
+</h4>
+<pre class="bash"><code>dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/binary_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.cov&quot;
+output=&quot;${dir_cma}/ex14-regenie-bt&quot;
+
+reg=&quot;${dir_user}/snake-cma/examples/software/regenie/regenie_v3.2.1.gz_x86_64_Linux&quot;
+plink2=&quot;${dir_user}/snake-cma/examples/software/plink2/plink2&quot;
+
+echo &quot;Starting...&quot;
+
+# REGENIE Step 1
+&quot;${reg}&quot; \
+  --step 1 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --bsize 1000 \
+  --lowmem \
+  --bt \
+  --lowmem-prefix &quot;${output}_step1_cache&quot; \
+  --out &quot;${output}_step1&quot;
+
+# REGENIE Step 2
+&quot;${reg}&quot; \
+  --step 2 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --pred &quot;${output}_step1_pred.list&quot; \
+  --bsize 2000 \
+  --minMAC 20 \
+  --bt \
+  --firth --approx \
+  --out &quot;${output}_step2&quot;
+
+echo &quot;Done.&quot;</code></pre>
+</p>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 15:</span> Run GWAS with REGENIE
+for a binary trait via a Bash script
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small Bash script that runs REGENIE for a binary trait. Make sure
+to change the <code>output</code> variable to a unique name before
+running.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<ol style="list-style-type: decimal">
+<li><p>Create the script file:</p>
+<pre class="bash"><code>nano ex15.sh</code></pre></li>
+<li><p>Paste the solution below, then save and close:</p>
+<pre class="bash"><code>#!/bin/bash
+set -euo pipefail
+
+dir_user=&quot;${1:?ERROR: provide repo root as first argument}&quot;
+dir_data=&quot;${dir_user}/snake-cma/examples/data&quot;
+dir_cma=&quot;${dir_user}/snake-cma/examples/cma-tests&quot;
+
+mkdir -p &quot;${dir_cma}&quot;
+
+geno=&quot;${dir_data}/HAPMAP3.qc.genotype&quot;
+pheno=&quot;${dir_data}/binary_trait.phen&quot;
+covars=&quot;${dir_data}/HAPMAP3.covars.cov&quot;
+output=&quot;${dir_cma}/ex15-regenie-bt&quot;
+
+reg=&quot;${dir_user}/snake-cma/examples/software/regenie/regenie_v3.2.1.gz_x86_64_Linux&quot;
+
+echo &quot;Starting...&quot;
+
+# REGENIE Step 1
+&quot;${reg}&quot; \
+  --step 1 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --bsize 1000 \
+  --lowmem \
+  --bt \
+  --lowmem-prefix &quot;${output}_step1_cache&quot; \
+  --out &quot;${output}_step1&quot;
+
+# REGENIE Step 2
+&quot;${reg}&quot; \
+  --step 2 \
+  --bed &quot;${geno}&quot; \
+  --phenoFile &quot;${pheno}&quot; \
+  --covarFile &quot;${covars}&quot; \
+  --pred &quot;${output}_step1_pred.list&quot; \
+  --bsize 2000 \
+  --minMAC 20 \
+  --bt \
+  --firth --approx \
+  --out &quot;${output}_step2&quot;
+
+echo &quot;Done.&quot;</code></pre></li>
+<li><p>Run the script (pass the repository root you saved earlier as
+dir_user):</p>
+<pre class="bash"><code>bash ex15.sh &quot;${dir_user}&quot;</code></pre></li>
+</ol>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 16 (Optional):</span> Run GWAS with
+REGENIE for a binary trait using an HPC job script on your cluster
+</h4>
+<p>
+<p><span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small job script for your local HPC cluster that runs REGENIE for
+a binary trait. Make sure to change the <code>output</code> variable to
+a unique name before running.</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+A solution for Eddie (the University of Edinburgh HPC cluster) will be
+provided during the in-person training.
+</details>
+<h3 id="section7" style="color:#56B4E9; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="7" style="list-style-type: decimal">
+<li>Introduction to CMA
+</h3></li>
+</ol>
+<p>
+<p>Corrected Meta-Analysis (CMA) is a divide-and-conquer approach
+designed for efficient genome-wide association studies on very large
+datasets. The method splits the data into smaller, more manageable
+chunks, runs association analyses in parallel using tools such as
+REGENIE or fastGWA-GLMM, and then combines the results through a novel
+meta-analysis method that accounts for between-cohort confounders. This
+workflow reduces computational burden significantly, allows flexible use
+of high-performance computing resources, and makes large-scale GWAS
+feasible even with limited per-job memory or runtime constraints.</p>
+CMA separates the predictivity stage (estimation of effect sizes) from
+the discovery stage (identification of loci or generation of p-values).
+In the predictivity stage, it mitigates the “winner’s curse” effect,
+providing better-calibrated effect size estimates. In the discovery
+stage, it achieves equally as good discovery levels as the gold standard
+GWAS methods such as REGENIE.
+</p>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+CMA workflow schematic
+</h4>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Split</td>
+<td>Partition cohort into <span class="math inline">\(M\)</span>
+sub-cohorts (<span class="math inline">\(M\)</span> is defined by the
+user)</td>
+</tr>
+<tr class="even">
+<td>Analyse</td>
+<td>Run GWAS for each sub-cohort in parallel</td>
+</tr>
+<tr class="odd">
+<td>Combine</td>
+<td>Merge and meta-analyse results</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[
+\boxed{\quad \text{Data} \quad}
+\xrightarrow{\mathbf{split}}
+\boxed{\quad \text{Sub-cohort 1},\ \text{Sub-cohort 2},\ \ldots \quad}
+\xrightarrow{\mathbf{GWAS\ (in\ parallel)}}
+\boxed{\quad \widehat{\beta}_1,\ \widehat{\beta}_2,\ \ldots \quad}
+\xrightarrow{\mathbf{corrected\ meta\text{-}analysis}}
+\boxed{\quad \widehat{\beta}_{\text{final}} \quad}
+\]</span></p>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Quantifying Relationships Between Sub-cohorts in CMA
+</h4>
+<p>When combining results from multiple sub-cohorts into a single
+estimate, it is important to account for the degree of <strong>overlap
+in information</strong> between sub-cohorts, which can arise from the
+presence of related individuals distributed across different
+sub-cohorts.. Overlap affects how similar the separate results are to
+one another, and failing to adjust for it can bias the combined
+result.</p>
+<p>CMA incorporates this overlap adjustment through the following
+relationship:</p>
+<p><span class="math display">\[
+\mathrm{Corr}(\widehat{\beta}_i, \widehat{\beta}_j) = \gamma_{12} \,
+\mathrm{Corr}(z_i, z_j),
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(z_i\)</span> and <span
+class="math inline">\(z_j\)</span> are the z-scores from the GWAS
+results of cohorts <span class="math inline">\(i\)</span> and <span
+class="math inline">\(j\)</span>, respectively,</li>
+<li><span class="math inline">\(\gamma_{12}\)</span> is defined as:
+<span class="math display">\[
+\gamma_{12} =
+\begin{cases}
+-1, &amp; \text{if } \widehat{\beta}_i \cdot \widehat{\beta}_j &lt; 0,
+\\
+\;\;1, &amp; \text{otherwise}.
+\end{cases}
+\]</span></li>
+</ul>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+CMA Predictivity
+</h4>
+<p>By modelling and adjusting for the correlation structure arising from
+cohort overlap, CMA produces effect size estimates that are better
+calibrated and less biased compared to standard GWAS. This yields
+improved predictive performance when the resulting polygenic scores are
+applied to independent datasets.</p>
+<p><img src="CMA-fig1.png" width="1238" style="display: block; margin: auto;" /></p>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+CMA Discovery
+</h4>
+<p>CMA achieves lower false discovery rates than standard GWAS methods,
+although this comes at the expense of some statistical power. For those
+prioritising higher power, CMA includes an inflation-based summary
+statistics option that enables discovery levels comparable to standard
+GWAS approaches. This is made possible by CMA’s decoupled framework for
+prediction and discovery.</p>
+<p>We applied CMA to 12 traits from the
+<a href="https://www.ukbiobank.ac.uk/" target="_blank">UK Biobank</a>
+using the inflation mode. CMA maintained discovery power equivalent to
+that of REGENIE in terms of genome-wide significant loci.</p>
+<p><img src="CMA-fig2.png" width="1205" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>A <strong>Manhattan plot</strong> is a scatter plot commonly used in
+GWAS to display –log₁₀ p-values of genetic variants across the genome,
+with chromosomes arranged sequentially along the x-axis. It is used to
+visualise and identify genomic regions with strong association signals.
+A <strong>Q–Q plot</strong> compares the observed distribution of test
+statistics (such as p-values) with the expected distribution under the
+null hypothesis. In the figure above, it is used to compare the
+distributions of GWAS summary results obtained from CMA and REGENIE.</p>
+</blockquote>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+Computational Benchmark of CMA
+</h4>
+<p>Extensive benchmarking demonstrates that CMA offers substantial
+computational advantages over both REGENIE and fastGWA-GLMM. It enables
+GWAS to be performed on large-scale datasets using only moderate
+computing resources if required; for example, CMA can run efficiently on
+datasets containing 5 million individuals.</p>
+<p><img src="CMA-table1.png" width="1230" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p>R + CMA (or RCMA in short) indicates that CMA is used in conjunction
+with REGENIE to perform GWAS on sub-cohorts.</p>
+</blockquote>
+<h4 style="color:purple; font-weight:bold; margin-left:0; padding-left:0;">
+CMA as a Multi-Purpose Tool
+</h4>
+<p>CMA is a versatile framework for large-scale genetic association
+studies, offering both GWAS execution and meta-analysis within the same
+framework. For GWAS, CMA supports running REGENIE (RCMA) and
+fastGWA-GLMM (FCMA) directly with a split of 1 (i.e. <span
+class="math inline">\(M=1\)</span>), producing results identical to
+running each method natively. When a split index greater than 1 is
+specified, CMA automatically partitions the dataset, runs GWAS on each
+subset in parallel, and then combines the results, enabling efficient
+analysis of datasets without loosing any statistical discovery. In
+addition, CMA implements a unique meta-analysis method that corrects for
+related individuals across sub-cohorts, currently the only approach
+offering this capability.</p>
+<p><strong>Key capabilities of CMA:</strong></p>
+<ul>
+<li><strong>GWAS modes:</strong>
+<ul>
+<li>REGENIE (RCMA with split = 1)<br />
+</li>
+<li>fastGWA-GLMM (FCMA with split = 1)<br />
+</li>
+<li>RCMA/FCMA with split &gt; 1</li>
+</ul></li>
+<li><strong>Meta-analysis mode (Not covered in this tutorial):</strong>
+<ul>
+<li>CMA that accounts for relatedness between sub-cohorts</li>
+</ul></li>
+</ul>
+<h3 id="section8" style="color:#E69F00; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="8" style="list-style-type: decimal">
+<li>Running GWAS with CMA
+</h3>
+<p></li>
+</ol>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 17:</span> Run GWAS with CMA via a
+Bash script
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Write and
+run a small job script for CMA, using either <b>R + CMA (RCMA)</b> or
+<b>F + CMA (FCMA)</b>, which splits the cohort into 2 sub-cohorts for a
+binary trait.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<p>The downloaded repository already includes the necessary Bash
+scripts, with RCMA and FCMA options providing the solution to this
+exercise. The script <code>rcma.qt.sh</code> can also be tested on a
+quantitative trait, although this run takes considerably longer to
+complete.</p>
+<pre class="bash"><code># Option A: R+CMA — REGENIE (Quantitative)
+bash ./snake-cma/examples/rcma.qt.sh
+
+# Option B: R+CMA — REGENIE (Binary)
+bash ./snake-cma/examples/rcma.bt.sh
+
+# Option C: F+CMA — fastGWA-GLMM (Binary)
+bash ./snake-cma/examples/fcma.bt.sh</code></pre>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 18:</span> Run REGENIE with CMA
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Run
+<b>R + CMA (RCMA)</b> with a single split (i.e. <span
+class="math inline">\(M=1\)</span>) to execute REGENIE under the CMA
+framework.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<pre class="bash"><code>dir_data=${dir_user}/snake-cma/examples/data
+dir_cma=${dir_user}/snake-cma/examples/cma-tests
+
+mkdir -p ${dir_cma}
+
+geno=${dir_data}/HAPMAP3.qc.genotype
+pheno=${dir_data}/binary_trait.phen
+covars=${dir_data}/HAPMAP3.covars.cov
+output=${dir_cma}/ex18-rcma-bt-split1
+
+reg=${dir_user}/snake-cma/examples/software/regenie/regenie_v3.2.1.gz_x86_64_Linux
+plink2=${dir_user}/snake-cma/examples/software/plink2/plink2
+cma=${dir_user}/snake-cma/src/snake_cma.py
+
+echo Starting..
+python ${cma} \
+    --bed ${geno} \
+    --bt \
+    --split 1 \
+    --out ${output} \
+    --phenoFile ${pheno} \
+    --covarFile ${covars} \
+    --regenie ${reg} \
+    --plink ${plink2}
+
+echo Done..</code></pre>
+</details>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 19:</span> Run fastGWA-GLMM with
+CMA
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Run
+<b>F + CMA (FCMA)</b> with a single split (i.e. <span
+class="math inline">\(M=1\)</span>) to execute fastGWA-GLMM under the
+CMA framework.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<pre class="bash"><code>dir_data=${dir_user}/snake-cma/examples/data
+dir_cma=${dir_user}/snake-cma/examples/cma-tests
+
+mkdir -p ${dir_cma}
+
+geno=${dir_data}/HAPMAP3.qc.genotype
+pheno=${dir_data}/binary_trait.phen
+covars=${dir_data}/HAPMAP3.covars.qcovar
+output=${dir_cma}/ex19-fcma-bt-split1
+
+reg=${dir_user}/snake-cma/examples/software/regenie/regenie_v3.2.1.gz_x86_64_Linux
+plink2=${dir_user}/snake-cma/examples/software/plink2/plink2
+cma=${dir_user}/snake-cma/src/snake_cma.py
+
+echo Starting..
+
+# Build sparse GRM only if it doesn&#39;t exist
+if [ ! -f &quot;${grm}.grm.sp&quot; ]; then
+  ${gcta} --bfile ${geno} \
+      --make-grm \
+      --sparse-cutoff 0.05 \
+      --out ${grm}
+fi
+
+python ${cma} \
+    --bt \
+    --bed ${geno} \
+    --sp-grm ${grm} \
+    --split 1 \
+    --out ${output} \
+    --phenoFile ${pheno} \
+    --covarFile ${covars} \
+    --gcta ${gcta} \
+    --plink ${plink2} \
+    --joint_covar
+
+echo Done..</code></pre>
+</details>
+</p>
+<hr />
+<h3 id="section9" style="color:#E69F00; font-weight:bold;margin-left:0; padding-left:0;">
+<ol start="9" style="list-style-type: decimal">
+<li>(Optional) Running Meta-Analysis with CMA
+</h3></li>
+</ol>
+<p>
+<h4 style="font-weight:bold; margin-left:0; padding-left:0;">
+<span style="color:purple;">EXERCISE 20:</span> Run Meta-Analysis with
+CMA via a Bash script
+</h4>
+<p>
+<span style="color:#0072B2; font-weight:bold;">Goal:</span> Combine GWAS
+results from fastGWA-GLMM or REGENIE using the CMA meta-analysis
+approach.
+</p>
+<details>
+<summary>
+<em>Show solution</em>
+</summary>
+<pre class="bash"><code># Option D: CMA Meta-analysis — Quantitative
+bash ./snake-cma/examples/cma.qt.sh
+
+# Option E: CMA Meta-analysis — Binary
+bash ./snake-cma/examples/cma.bt.sh</code></pre>
+</details>
+</p>
+<h3 id="qa" style="color:magenta; font-weight:bold; margin-left:0; padding-left:0;">
+💬 Questions / Comments / Feedback
+</h3>
+<p>
+<p>Thank you for joining this training session on <strong>Scalable
+Methods for Large-Scale Genetic Association Studies</strong>.</p>
+In this session, we covered three major GWAS tools REGENIE,
+fastGWA/fastGWA-GLMM, and CMA, explored their core concepts, and showed
+how to run them through hands-on examples with sample datasets.
+</p>
+<p>
+This concludes our tutorial. Now is the time for any remaining
+<strong>questions or comments</strong> before we wrap up.
+</p>
+<p>
+<p>If you have questions in the future or need additional clarification,
+please don’t hesitate to reach out:</p>
+<a style="color:lightcoral">İsmail Özkaraca:</a> ozkaraca
+<strong>AT</strong> duck <strong>DOT</strong> com
+</p>
+<p> </p>
+<p> </p>
+<h3 id="section10" style="color:gray; font-weight:bold;margin-left:0; padding-left:0;">
+References
+</h3>
+<p>[1] <span style="color:purple;"><strong>(REGENIE)</strong></span>
+Mbatchou, J., Barnard, L., Backman, J. et al. Computationally efficient
+whole-genome regression for quantitative and binary traits. Nat Genet
+53, 1097–1103 (2021). <a
+href="https://doi.org/10.1038/s41588-021-00870-7"
+class="uri">https://doi.org/10.1038/s41588-021-00870-7</a></p>
+<p>[2] <span style="color:purple;"><strong>(fastGWA)</strong></span>
+Jiang, L., Zheng, Z., Qi, T. et al. A resource-efficient tool for mixed
+model association analysis of large-scale data. Nat Genet 51, 1749–1755
+(2019). <a href="https://doi.org/10.1038/s41588-019-0530-8"
+class="uri">https://doi.org/10.1038/s41588-019-0530-8</a></p>
+<p>[3] <span
+style="color:purple;"><strong>(fastGWA-GLMM)</strong></span> Jiang, L.,
+Zheng, Z., Fang, H. et al. A generalized linear mixed model association
+tool for biobank-scale data. Nat Genet 53, 1616–1621 (2021). <a
+href="https://doi.org/10.1038/s41588-021-00954-4"
+class="uri">https://doi.org/10.1038/s41588-021-00954-4</a></p>
+<p>[4] <span style="color:purple;"><strong>(GCTA)</strong></span> Yang,
+Jian, et al. “GCTA: a tool for genome-wide complex trait analysis.” The
+American Journal of Human Genetics 88.1 (2011): 76-82. <a
+href="https://doi.org/10.1016/j.ajhg.2010.11.011"
+class="uri">https://doi.org/10.1016/j.ajhg.2010.11.011</a></p>
+<p>[5] <span style="color:purple;"><strong>(CMA)</strong></span> Mustafa
+İsmail Özkaraca, Mulya Agung, Pau Navarro, Albert Tenesa, Divide and
+conquer approach for genome-wide association studies, Genetics, Volume
+229, Issue 4, April 2025, iyaf019, <a
+href="https://doi.org/10.1093/genetics/iyaf019"
+class="uri">https://doi.org/10.1093/genetics/iyaf019</a></p>
+<p>[6] Listgarten, J., Lippert, C., Kadie, C. et al. Improved linear
+mixed models for genome-wide association studies. Nat Methods 9, 525–526
+(2012). <a href="https://doi.org/10.1038/nmeth.2037"
+class="uri">https://doi.org/10.1038/nmeth.2037</a></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
